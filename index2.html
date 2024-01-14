@@ -8,7 +8,7 @@
 
 <script>
 
-function initMap() {
+async function initMap() {
   // Request needed libraries.
   const { Map, InfoWindow } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
@@ -80,7 +80,7 @@ const locations = [
 
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap"></script>
 
 </body>
 </html>
