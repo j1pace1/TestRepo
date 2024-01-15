@@ -1,6 +1,7 @@
 <!DOCTYPE html>
  <body>
  <div id="map" style="width: 320px; height: 480px;"></div>
+ <div id="response" style="width: 320px; height: 480px;">......</div>
   <!--<div>
     <input id="address" type="textbox" value="Sydney, NSW">
     <input type="button" value="Encode" onclick="codeAddress()">
@@ -86,7 +87,7 @@ function geocode(request) {
       marker.setMap(map);
       responseDiv.style.display = "block";
       //response.innerText = JSON.stringify(result, null, 2);
-     document.getElementById("map").innerHtml  = JSON.stringify(result, null, 2);
+     document.getElementById("response").innerHtml  = JSON.stringify(result, null, 2);
       return results;
     })
     .catch((e) => {
