@@ -9,264 +9,48 @@
 
 <script>
  
-async function initMap() {
-  // Request needed libraries.
-  const { Map, InfoWindow } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
-    "marker",
-  );
+function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 3,
-    center: { lat: -28.024, lng: 140.887 },
-    mapId: "DEMO_MAP_ID",
+    zoom: 8,
+    center: { lat: 40.731, lng: -73.997 },
   });
-  const infoWindow = new google.maps.InfoWindow({
-    content: "",
-    disableAutoPan: true,
-  });
-  // Create an array of alphabetical characters used to label the markers.
-  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  // Add some markers to the map.
-  const markers = locations.map((position, i) => {
-    const label = labels[i % labels.length];
-    const pinGlyph = new google.maps.marker.PinElement({
-      glyph: label,
-      glyphColor: "white",
-    });
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      position,
-      content: pinGlyph.element,
-    });
+  const geocoder = new google.maps.Geocoder();
+  const infowindow = new google.maps.InfoWindow();
 
-    // markers can only be keyboard focusable when they have click listeners
-    // open info window when marker is clicked
-    marker.addListener("click", () => {
-      infoWindow.setContent(position.lat + ", " + position.lng);
-      infoWindow.open(map, marker);
-    });
-    return marker;
+  document.getElementById("submit").addEventListener("click", () => {
+    geocodeLatLng(geocoder, map, infowindow);
   });
-
-  // Add a marker clusterer to manage the markers.
- const markerCluster = new markerClusterer.MarkerClusterer({ markers, map });
- //new MarkerClusterer({ markers, map });
 }
 
- const addresses = [
-  {'address': '1000 GROVE BLVD'},
-{'address': '1000 GROVE BLVD'},
-{'address': '1000 GROVE BLVD'},
-{'address': '1200 GROVE BLVD'},
-{'address': '1200 GROVE BLVD'},
-{'address': '1200 GROVE BLVD'},
-{'address': '1100 GROVE BLVD'},
-{'address': '1100 GROVE BLVD'},
-{'address': '1100 GROVE BLVD'},
-{'address': '6000 BLUEBELL CIR'},
-{'address': '6100 MARIGOLD TER'},
-{'address': '6000 CARNATION TER'},
-{'address': '1200 BEGONIA TER'},
-{'address': '6000 PALM CIR'},
-{'address': '1100 LILY TER'},
-{'address': '6100 CARNATION TER'},
-{'address': '6000 PALM CIR'},
-{'address': '6100 BEGONIA CIR'},
-{'address': '6100 BEGONIA CIR'},
-{'address': '6100 BEGONIA CIR'},
-{'address': '800 GROVE BLVD'},
-{'address': '6100 CARNATION TER'},
-{'address': '6200 MARIGOLD TER'},
-{'address': '6200 MARIGOLD TER'},
-{'address': '6100 CLUB TER'},
-{'address': '6100 PALM CIR'},
-{'address': '6100 CLUB TER'},
-{'address': '6100 HOGAN AVE'},
-{'address': '1400 MONTOPOLIS DR'},
-{'address': '6100 HOGAN AVE'},
-{'address': '0 MARIGOLD TER'},
-{'address': '0 MARIGOLD TER'},
-{'address': '6100 HOGAN AVE'},
-{'address': '6100 PALM CIR'},
-{'address': '1400 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '6000 PONCA ST'},
-{'address': '1300 MONTOPOLIS DR'},
-{'address': '0 PORTER ST'},
-{'address': '0 PORTER ST'},
-{'address': '6200 PALM CIR'},
-{'address': '6200 PALM CIR'},
-{'address': '6000 PONCA ST'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '6100 RICHARDSON LN'},
-{'address': '6100 HOGAN AVE'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '1200 MONTOPOLIS DR'},
-{'address': '6100 RICHARDSON LN'},
-{'address': '6200 HOGAN AVE'},
-{'address': '0 MONTOPOLIS DR'},
-{'address': '700 EGGER ST'},
-{'address': '6200 PALM CIR'},
-{'address': '6200 PALM CIR'},
-{'address': '6000 ATWOOD ST'},
-{'address': '6000 ATWOOD ST'},
-{'address': '6000 ATWOOD ST'},
-{'address': '1000 MONTOPOLIS DR'},
-{'address': '1100 MONTOPOLIS DR'},
-{'address': '1100 MONTOPOLIS DR'},
-{'address': '1000 MONTOPOLIS DR'},
-{'address': '1000 MONTOPOLIS DR'},
-{'address': '700 CULP ST'},
-{'address': '6100 ATWOOD ST'},
-{'address': '6400 PORTER ST'},
-{'address': '6200 HOGAN AVE'},
-{'address': '6500 PORTER ST'},
-{'address': '6100 PONCA ST'},
-{'address': '0 MONTOPOLIS DR'},
-{'address': '0 MONTOPOLIS DR'},
-{'address': '900 MONTOPOLIS DR'},
-{'address': '6100 ATWOOD ST'},
-{'address': '6100 ATWOOD ST'},
-{'address': '6100 ATWOOD ST'},
-{'address': '6100 ATWOOD ST'},
-{'address': '6100 ATWOOD ST'},
-{'address': '1200 VARGAS RD'},
-{'address': '6600 CIRCULO DE AMISTAD '},
-{'address': '6600 PORTER ST'},
-{'address': '6300 CIRCULO DE AMISTAD '},
-{'address': '6300 CIRCULO DE AMISTAD '},
-{'address': '0 FELIX AVE'},
-{'address': '0 FELIX AVE'},
-{'address': '0 FELIX AVE'},
-{'address': '900 MONTOPOLIS DR'},
-{'address': '6600 CIRCULO DE AMISTAD '},
-{'address': '6600 CIRCULO DE AMISTAD '},
-{'address': '6600 CIRCULO DE AMISTAD '},
-{'address': '6600 CIRCULO DE AMISTAD '},
-{'address': '700 SHORT KEMP '},
-{'address': '6300 FELIX AVE'},
-{'address': '6300 FELIX AVE'},
-{'address': '6100 ATWOOD ST'},
-{'address': '6200 RICHARDSON LN'},
-{'address': '1200 VARGAS RD'},
-{'address': '0 ATWOOD ST'},
-{'address': '0 ATWOOD ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '6200 PONCA ST'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '6200 VERA LN'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '6200 VERA LN'},
-{'address': '0 MONTANA ST'},
-{'address': '0 MONTANA ST'},
-{'address': '6400 FELIX AVE'},
-{'address': '6400 FELIX AVE'},
-{'address': '6400 FELIX AVE'},
-{'address': '6400 FELIX AVE'},
-{'address': '6400 FELIX AVE'},
-{'address': '6400 FELIX AVE'},
-{'address': '6400 FELIX AVE'},
-{'address': '600 MONTOPOLIS DR'},
-{'address': '600 MONTOPOLIS DR'},
-{'address': '6200 WALKER LN'},
-{'address': '0 MONTOPOLIS DR'},
-{'address': '6500 CIRCULO DE AMISTAD '},
-{'address': '1100 VARGAS RD'},
-{'address': '6200 VERA LN'},
-{'address': '6300 PONCA ST'},
-{'address': '700 MONTOPOLIS DR'},
-{'address': '6400 RICHARDSON LN'},
-{'address': '600 MONTOPOLIS DR'},
-{'address': '1000 VARGAS RD'},
-{'address': '600 MONTOPOLIS DR'},
-{'address': '600 MONTOPOLIS DR'},
-{'address': '6400 FELIX AVE'},
-{'address': '1000 VARGAS RD'},
-{'address': '0 MONTANA ST'},
-{'address': '0 MONSANTO DR'},
-{'address': '600 THRASHER LN'},
-{'address': '600 THRASHER LN'},
-{'address': '600 THRASHER LN'},
-{'address': '900 VARGAS RD'},
-{'address': '6300 PONCA ST'},
-{'address': '6300 PONCA ST'},
-{'address': '6300 PONCA ST'},
-{'address': '6300 MONSANTO DR'},
-{'address': '600 THRASHER LN'},
-{'address': '6300 MONSANTO DR'},
-{'address': '900 VARGAS RD'},
-{'address': '0 FELIX AVE'},
-{'address': '0 FELIX AVE'},
-{'address': '0 FELIX AVE'},
-{'address': '0 FELIX AVE'},
-{'address': '0 FELIX AVE'},
-{'address': '1000 VALDEZ ST'},
-{'address': '1000 VALDEZ ST'},
-{'address': '6600 FELIX AVE'},
-{'address': '600 THRASHER LN'},
-{'address': '700 VARGAS RD'},
-{'address': '600 THRASHER LN'},
-{'address': '600 THRASHER LN'},
-{'address': '600 THRASHER LN'},
-{'address': '700 VARGAS RD'},
-{'address': '700 VARGAS RD'},
-{'address': '900 VALDEZ ST'},
-{'address': '0 PONCA ST'},
-{'address': '800 VALDEZ ST'}
-  ];
+function geocodeLatLng(geocoder, map, infowindow) {
+  const input = document.getElementById("latlng").value;
+  const latlngStr = input.split(",", 2);
+  const latlng = {
+    lat: parseFloat(latlngStr[0]),
+    lng: parseFloat(latlngStr[1]),
+  };
 
- 
+  geocoder
+    .geocode({ location: latlng })
+    .then((response) => {
+      if (response.results[0]) {
+        map.setZoom(11);
 
-const locations = [
-  { lat: -31.56391, lng: 147.154312 },
-  { lat: -33.718234, lng: 150.363181 },
-  { lat: -33.727111, lng: 150.371124 },
-  { lat: -33.848588, lng: 151.209834 },
-  { lat: -33.851702, lng: 151.216968 },
-  { lat: -34.671264, lng: 150.863657 },
-  { lat: -35.304724, lng: 148.662905 },
-  { lat: -36.817685, lng: 175.699196 },
-  { lat: -36.828611, lng: 175.790222 },
-  { lat: -37.75, lng: 145.116667 },
-  { lat: -37.759859, lng: 145.128708 },
-  { lat: -37.765015, lng: 145.133858 },
-  { lat: -37.770104, lng: 145.143299 },
-  { lat: -37.7737, lng: 145.145187 },
-  { lat: -37.774785, lng: 145.137978 },
-  { lat: -37.819616, lng: 144.968119 },
-  { lat: -38.330766, lng: 144.695692 },
-  { lat: -39.927193, lng: 175.053218 },
-  { lat: -41.330162, lng: 174.865694 },
-  { lat: -42.734358, lng: 147.439506 },
-  { lat: -42.734358, lng: 147.501315 },
-  { lat: -42.735258, lng: 147.438 },
-  { lat: -43.999792, lng: 170.463352 },
-];
+        const marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+        });
+
+        infowindow.setContent(response.results[0].formatted_address);
+        infowindow.open(map, marker);
+      } else {
+        window.alert("No results found");
+      }
+    })
+    .catch((e) => window.alert("Geocoder failed due to: " + e));
+}
+
+//window.initMap = initMap;
 
 //initMap();
 </script>
