@@ -6,8 +6,8 @@
     <input id="address" type="textbox" value="Sydney, NSW">
     <input type="button" value="Encode" onclick="codeAddress()">
   </div>-->
-<script>
- 
+  
+<script> 
 let map;
 let marker;
 let geocoder;
@@ -41,10 +41,12 @@ function initMap() {
   response = document.createElement("pre");
   response.id = "response";
   response.innerText = "";
-  responseDiv = document.createElement("div");  
-  responseDiv.id = "response-container";
-  //responseDiv = document.getElementById("response-container");
+  //responseDiv = document.createElement("div");  
+  //responseDiv.id = "response-container";
+  responseDiv = document.getElementById("response-container1");
   responseDiv.appendChild(response);
+
+ //6201 hogan ave austin, tx
 
   const instructionsElement = document.createElement("p");
 
