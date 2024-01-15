@@ -14,6 +14,7 @@ let geocoder;
 let responseDiv;
 let responseDiv1;
 let response;
+let response1;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -42,10 +43,17 @@ function initMap() {
   response = document.createElement("pre");
   response.id = "response";
   response.innerText = "";
-  responseDiv = document.createElement("div");  
+  responseDiv = document.createElement("div");
   responseDiv.id = "response-container";
-  responseDiv1 = document.getElementById("response-container1");
   responseDiv.appendChild(response);
+
+  response1 = document.createElement("pre");
+  //response1.id = "response";
+  response1.innerText = "";
+  responseDiv1 = document.getElementById("response-container1");
+  //responseDiv.id = "response-container";
+  responseDiv1.appendChild(response1);
+
 
  //6201 hogan ave austin, tx
 
