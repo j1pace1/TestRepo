@@ -98,7 +98,7 @@ function geocode(request) {
       marker.setPosition(results[0].geometry.location);
       marker.setMap(map);
       responseDiv.style.display = "block";
-      response.innerText = JSON.stringify(result, null, 2);
+      //response.innerText = JSON.stringify(result, null, 2);
       responseDiv1.innerText  = JSON.stringify(result, null, 2);
       return results;
     })
