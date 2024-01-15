@@ -12,6 +12,7 @@ let map;
 let marker;
 let geocoder;
 let responseDiv;
+let responseDiv1;
 let response;
 
 function initMap() {
@@ -41,9 +42,9 @@ function initMap() {
   response = document.createElement("pre");
   response.id = "response";
   response.innerText = "";
-  //responseDiv = document.createElement("div");  
-  //responseDiv.id = "response-container";
-  responseDiv = document.getElementById("response-container1");
+  responseDiv = document.createElement("div");  
+  responseDiv.id = "response-container";
+  responseDiv1 = document.getElementById("response-container1");
   responseDiv.appendChild(response);
 
  //6201 hogan ave austin, tx
@@ -90,7 +91,7 @@ function geocode(request) {
       marker.setMap(map);
       responseDiv.style.display = "block";
       response.innerText = JSON.stringify(result, null, 2);
-      //document.getElementById("response").innerText  = JSON.stringify(result, null, 2);
+      responseDiv1.innerText  = JSON.stringify(result, null, 2);
       return results;
     })
     .catch((e) => {
