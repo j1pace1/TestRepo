@@ -114,32 +114,7 @@ function toCoords(request) {
   
 }
 
- function toCoords1(request) {
-  clear();
 
-      
-
-  for (let i = 0; i < 2; i++) {
-  //for (let i = 0; i < addresses.length; i++) {
-    geocoder
-    .geocode(adresses[i])
-    .then((result) => {      
-      allProps.push(result);
-      //return results;
-    })
-    .catch((e) => {
-      alert("Geocode was not successful for the following reason: " + e);
-    });
-  }
-
-  map.setCenter(allProps[0].geometry.location);
-  marker.setPosition(allProps[0].geometry.location);
-  marker.setMap(map);
-  responseDiv.style.display = "block";
-  
-  responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
-  
-}
 
 function geocode(request) {
   clear();
