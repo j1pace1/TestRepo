@@ -18,10 +18,10 @@ let response1;
 let centerProp;
 
 function initMap() {
-  centerProp = toCoords({'address': '6100 ATWOOD ST austin, tx'});
+  
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 8,
-    center: centerProp,
+    center: { lat: -34.397, lng: 150.644 },
     mapTypeControl: false,
   });
   geocoder = new google.maps.Geocoder();
@@ -122,7 +122,7 @@ function geocode(request) {
     });
 }
 
-  var addresses = [
+const addresses = [
 {'address': '1000 GROVE BLVD austin, tx'},
 {'address': '1000 GROVE BLVD austin, tx'},
 {'address': '1000 GROVE BLVD austin, tx'},
