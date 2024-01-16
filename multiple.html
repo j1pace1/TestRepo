@@ -92,21 +92,21 @@ function clear() {
   responseDiv.style.display = "none";
 }
 
-  function toCoords(request) {
-  clear();
+function toCoords(request) {
+   clear();
 
   for (let i = 0; i < 2; i++) {
   //for (let i = 0; i < addresses.length; i++) {
     geocoder
     .geocode(request)
     .then((result) => {      
-      allProps.push(addresses[i]);
+      allProps.push(result);
       //return results;
     })
     .catch((e) => {
       alert("Geocode was not successful for the following reason: " + e);
     });
-  }
+}
 
   
    responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
