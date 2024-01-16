@@ -95,12 +95,24 @@ function clear() {
 function toCoords(request) {
    clear();
 
-  for (var i = 0; i < 2; i++) {
-     console.log(addresses[i]);
-  }
-  
+  for (let i = 0; i < 2; i++) {
+  //for (let i = 0; i < addresses.length; i++) {
+    geocoder
+    .geocode(request)
+    .then((result) => {      
+      allProps.push(result);
+      console.log(JSON.stringify(result, null, 2));
+      //return results;
+    })
+    .catch((e) => {
+      alert("Geocode was not successful for the following reason: " + e);
+    });
 }
 
+  
+   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
+  
+}
  function toCoords1(request) {
   clear();
 
