@@ -99,7 +99,7 @@ function clear() {
     geocoder
     .geocode(request)
     .then((result) => {      
-      allProps.push(addresses[i]);
+      allProps.push(addresses[i].address);
       //return results;
     })
     .catch((e) => {
