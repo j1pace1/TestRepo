@@ -18,7 +18,7 @@ let response1;
 let centerProp;
 
 function initMap() {
-  centerProp = toCoords('6200 PONCA ST austin, tx');
+  centerProp = toCoords({'address': '6100 ATWOOD ST austin, tx'});
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 8,
     center: centerProp,
