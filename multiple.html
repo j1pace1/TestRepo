@@ -101,6 +101,7 @@ function toCoords(request) {
     .geocode(request)
     .then((result) => {      
       allProps.push(result);
+      console.log(JSON.stringify(result, null, 2));
       //return results;
     })
     .catch((e) => {
