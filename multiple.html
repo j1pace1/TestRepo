@@ -101,7 +101,7 @@ function toCoords(request) {
     //.geocode(request)
     .geocode(addresses[i].address)
     .then((result) => {      
-      allProps.push(result);
+      allProps.push(addresses[i].address);
       console.log(JSON.stringify(result, null, 2));
       //return results;
     })
