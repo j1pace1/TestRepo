@@ -92,39 +92,14 @@ function clear() {
   responseDiv.style.display = "none";
 }
 
-function toCoords(request) {
-   clear();
+ function toCoords(request) {
+  clear();
 
-  for (let i = 0; i < 2; i++) {
-  //for (let i = 0; i < addresses.length; i++) {
+  for (let i = 0; i < addresses.length; i++) {
     geocoder
     .geocode(request)
     .then((result) => {      
-      allProps.push(result);
-      console.log(JSON.stringify(result, null, 2));
-      //return results;
-    })
-    .catch((e) => {
-      alert("Geocode was not successful for the following reason: " + e);
-    });
-}
-
-  
-   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
-  
-}
-
- function toCoords1(request) {
-  clear();
-
-      
-
-  for (let i = 0; i < 2; i++) {
-  //for (let i = 0; i < addresses.length; i++) {
-    geocoder
-    .geocode(adresses[i])
-    .then((result) => {      
-      allProps.push(result);
+      allProps.push(addresses[i]);
       //return results;
     })
     .catch((e) => {
@@ -132,12 +107,8 @@ function toCoords(request) {
     });
   }
 
-  map.setCenter(allProps[0].geometry.location);
-  marker.setPosition(allProps[0].geometry.location);
-  marker.setMap(map);
-  responseDiv.style.display = "block";
   
-  responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
+   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
   
 }
 
