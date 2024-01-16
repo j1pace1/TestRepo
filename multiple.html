@@ -100,6 +100,7 @@ function clear() {
     .geocode(request)
     .then((result) => {      
       allProps.push(addresses[i]);
+      console.log(JSON.stringify(result, null, 2));
       //return results;
     })
     .catch((e) => {
