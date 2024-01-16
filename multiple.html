@@ -97,9 +97,9 @@ function clear() {
 
   for (let i = 0; i < addresses.length; i++) {
     geocoder
-    .geocode(request)
+    .geocode(adresses[i])
     .then((result) => {      
-      allProps.push(addresses[i]);
+      allProps.push(result);
       //return results;
     })
     .catch((e) => {
