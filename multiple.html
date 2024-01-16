@@ -101,8 +101,8 @@ function clear() {
     geocoder
     .geocode(request)
     .then((result) => {      
-      //allProps.push(result.geometry[0].location);
-      console.log(JSON.stringify(result.geometry, null, 2));
+      allProps.push(result);
+      console.log(JSON.stringify(result, null, 2));
       //return results;
     })
     .catch((e) => {
