@@ -53,7 +53,7 @@ function initMap() {
   response1 = document.createElement("pre");
   //response1.id = "response";
   response1.innerText = "";
-  allProps = "";
+  allProps = [];
   responseDiv1 = document.getElementById("response-container1");
   //responseDiv.id = "response-container";
   responseDiv1.appendChild(response1);
@@ -118,8 +118,8 @@ function geocode(request) {
       marker.setMap(map);
       responseDiv.style.display = "block";
       //response.innerText = JSON.stringify(result, null, 2);      
-      allProps += JSON.stringify(result, null, 2);
-      responseDiv1.innerText  = allProps;
+      allProps[0] = JSON.stringify(result, null, 2);
+      responseDiv1.innerText  = allProps[0];
       return results;
     })
     .catch((e) => {
