@@ -1,13 +1,106 @@
-function toCoords1(request) {
+<!DOCTYPE html>
+ <body>
+ <div id="map" style="width: 320px; height: 480px;"></div>
+ <div id="response-container1" style="width: 320px; height: 480px;">......</div>
+  <!--<div>
+    <input id="address" type="textbox" value="Sydney, NSW">
+    <input type="button" value="Encode" onclick="codeAddress()">
+  </div>-->
+  
+<script> 
+let map;
+let marker;
+let geocoder;
+let responseDiv;
+let responseDiv1;
+let response;
+let response1;
+let centerProp;
+let allProps;
+
+function initMap() {
+  
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 8,
+    center: { lat: -34.397, lng: 150.644 },
+    mapTypeControl: false,
+  });
+  geocoder = new google.maps.Geocoder();
+
+  const inputText = document.createElement("input");
+
+  inputText.type = "text";
+  inputText.placeholder = "Enter a location";
+
+  const submitButton = document.createElement("input");
+
+  submitButton.type = "button";
+  submitButton.value = "Geocode";
+  submitButton.classList.add("button", "button-primary");
+
+  const clearButton = document.createElement("input");
+
+  clearButton.type = "button";
+  clearButton.value = "Clear";
+  clearButton.classList.add("button", "button-secondary");
+  response = document.createElement("pre");
+  response.id = "response";
+  response.innerText = "";
+  responseDiv = document.createElement("div");
+  responseDiv.id = "response-container";
+  responseDiv.appendChild(response);
+
+  response1 = document.createElement("pre");
+  //response1.id = "response";
+  response1.innerText = "";
+  allProps = [];
+  responseDiv1 = document.getElementById("response-container1");
+  //responseDiv.id = "response-container";
+  responseDiv1.appendChild(response1);
+
+
+ //6201 hogan ave austin, tx
+
+  const instructionsElement = document.createElement("p");
+
+  instructionsElement.id = "instructions";
+  instructionsElement.innerHTML =
+    "<strong>Instructions</strong>: Enter an address in the textbox to geocode or click on the map to reverse geocode.";
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(clearButton);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(instructionsElement);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(responseDiv);
+  marker = new google.maps.Marker({
+    map,
+  });
+  map.addListener("click", (e) => {
+    geocode({ location: e.latLng });
+  });
+  submitButton.addEventListener("click", () =>
+    //geocode({ address: inputText.value }),
+    toCoords({ address: inputText.value })
+  );
+  clearButton.addEventListener("click", () => {
+    clear();
+  });
+  clear();
+}
+
+function clear() {
+  marker.setMap(null);
+  responseDiv.style.display = "none";
+}
+
+function toCoords(request) {
    clear();
 
   for (let i = 0; i < 2; i++) {
   //for (let i = 0; i < addresses.length; i++) {
     geocoder
-    //.geocode(request)
-    .geocode(addresses[i].address)
+    .geocode(request)
     .then((result) => {      
-      allProps.push(addresses[i].address);
+      allProps.push(result);
       console.log(JSON.stringify(result, null, 2));
       //return results;
     })
@@ -15,3 +108,254 @@ function toCoords1(request) {
       alert("Geocode was not successful for the following reason: " + e);
     });
 }
+
+  
+   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
+  
+}
+
+ function toCoords1(request) {
+  clear();
+
+      
+
+  for (let i = 0; i < 2; i++) {
+  //for (let i = 0; i < addresses.length; i++) {
+    geocoder
+    .geocode(adresses[i])
+    .then((result) => {      
+      allProps.push(result);
+      //return results;
+    })
+    .catch((e) => {
+      alert("Geocode was not successful for the following reason: " + e);
+    });
+  }
+
+  map.setCenter(allProps[0].geometry.location);
+  marker.setPosition(allProps[0].geometry.location);
+  marker.setMap(map);
+  responseDiv.style.display = "block";
+  
+  responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
+  
+}
+
+function geocode(request) {
+  clear();
+  geocoder
+    .geocode(request)
+    .then((result) => {
+      const { results } = result;
+
+      map.setCenter(results[0].geometry.location);
+      marker.setPosition(results[0].geometry.location);
+      marker.setMap(map);
+      responseDiv.style.display = "block";
+      //response.innerText = JSON.stringify(result, null, 2);      
+      allProps.push(JSON.stringify(result, null, 2));
+      responseDiv1.innerText  = allProps[0];
+      return results;
+    })
+    .catch((e) => {
+      alert("Geocode was not successful for the following reason: " + e);
+    });
+}
+
+const addresses = [
+{'address': '1000 GROVE BLVD austin, tx'},
+{'address': '1000 GROVE BLVD austin, tx'},
+{'address': '1000 GROVE BLVD austin, tx'},
+{'address': '1200 GROVE BLVD austin, tx'},
+{'address': '1200 GROVE BLVD austin, tx'},
+{'address': '1200 GROVE BLVD austin, tx'},
+{'address': '1100 GROVE BLVD austin, tx'},
+{'address': '1100 GROVE BLVD austin, tx'},
+{'address': '1100 GROVE BLVD austin, tx'},
+{'address': '6000 BLUEBELL CIR austin, tx'},
+{'address': '6100 MARIGOLD TER austin, tx'},
+{'address': '6000 CARNATION TER austin, tx'},
+{'address': '1200 BEGONIA TER austin, tx'},
+{'address': '6000 PALM CIR austin, tx'},
+{'address': '1100 LILY TER austin, tx'},
+{'address': '6100 CARNATION TER austin, tx'},
+{'address': '6000 PALM CIR austin, tx'},
+{'address': '6100 BEGONIA CIR austin, tx'},
+{'address': '6100 BEGONIA CIR austin, tx'},
+{'address': '6100 BEGONIA CIR austin, tx'},
+{'address': '800 GROVE BLVD austin, tx'},
+{'address': '6100 CARNATION TER austin, tx'},
+{'address': '6200 MARIGOLD TER austin, tx'},
+{'address': '6200 MARIGOLD TER austin, tx'},
+{'address': '6100 CLUB TER austin, tx'},
+{'address': '6100 PALM CIR austin, tx'},
+{'address': '6100 CLUB TER austin, tx'},
+{'address': '6100 HOGAN AVE austin, tx'},
+{'address': '1400 MONTOPOLIS DR austin, tx'},
+{'address': '6100 HOGAN AVE austin, tx'},
+{'address': '0 MARIGOLD TER austin, tx'},
+{'address': '0 MARIGOLD TER austin, tx'},
+{'address': '6100 HOGAN AVE austin, tx'},
+{'address': '6100 PALM CIR austin, tx'},
+{'address': '1400 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '6000 PONCA ST austin, tx'},
+{'address': '1300 MONTOPOLIS DR austin, tx'},
+{'address': '0 PORTER ST austin, tx'},
+{'address': '0 PORTER ST austin, tx'},
+{'address': '6200 PALM CIR austin, tx'},
+{'address': '6200 PALM CIR austin, tx'},
+{'address': '6000 PONCA ST austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '6100 RICHARDSON LN austin, tx'},
+{'address': '6100 HOGAN AVE austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '1200 MONTOPOLIS DR austin, tx'},
+{'address': '6100 RICHARDSON LN austin, tx'},
+{'address': '6200 HOGAN AVE austin, tx'},
+{'address': '0 MONTOPOLIS DR austin, tx'},
+{'address': '700 EGGER ST austin, tx'},
+{'address': '6200 PALM CIR austin, tx'},
+{'address': '6200 PALM CIR austin, tx'},
+{'address': '6000 ATWOOD ST austin, tx'},
+{'address': '6000 ATWOOD ST austin, tx'},
+{'address': '6000 ATWOOD ST austin, tx'},
+{'address': '1000 MONTOPOLIS DR austin, tx'},
+{'address': '1100 MONTOPOLIS DR austin, tx'},
+{'address': '1100 MONTOPOLIS DR austin, tx'},
+{'address': '1000 MONTOPOLIS DR austin, tx'},
+{'address': '1000 MONTOPOLIS DR austin, tx'},
+{'address': '700 CULP ST austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '6400 PORTER ST austin, tx'},
+{'address': '6200 HOGAN AVE austin, tx'},
+{'address': '6500 PORTER ST austin, tx'},
+{'address': '6100 PONCA ST austin, tx'},
+{'address': '0 MONTOPOLIS DR austin, tx'},
+{'address': '0 MONTOPOLIS DR austin, tx'},
+{'address': '900 MONTOPOLIS DR austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '1200 VARGAS RD austin, tx'},
+{'address': '6600 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '6600 PORTER ST austin, tx'},
+{'address': '6300 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '6300 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '900 MONTOPOLIS DR austin, tx'},
+{'address': '6600 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '6600 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '6600 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '6600 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '700 SHORT KEMP  austin, tx'},
+{'address': '6300 FELIX AVE austin, tx'},
+{'address': '6300 FELIX AVE austin, tx'},
+{'address': '6100 ATWOOD ST austin, tx'},
+{'address': '6200 RICHARDSON LN austin, tx'},
+{'address': '1200 VARGAS RD austin, tx'},
+{'address': '0 ATWOOD ST austin, tx'},
+{'address': '0 ATWOOD ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '6200 PONCA ST austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '6200 VERA LN austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '6200 VERA LN austin, tx'},
+{'address': '0 MONTANA ST austin, tx'},
+{'address': '0 MONTANA ST austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '600 MONTOPOLIS DR austin, tx'},
+{'address': '600 MONTOPOLIS DR austin, tx'},
+{'address': '6200 WALKER LN austin, tx'},
+{'address': '0 MONTOPOLIS DR austin, tx'},
+{'address': '6500 CIRCULO DE AMISTAD  austin, tx'},
+{'address': '1100 VARGAS RD austin, tx'},
+{'address': '6200 VERA LN austin, tx'},
+{'address': '6300 PONCA ST austin, tx'},
+{'address': '700 MONTOPOLIS DR austin, tx'},
+{'address': '6400 RICHARDSON LN austin, tx'},
+{'address': '600 MONTOPOLIS DR austin, tx'},
+{'address': '1000 VARGAS RD austin, tx'},
+{'address': '600 MONTOPOLIS DR austin, tx'},
+{'address': '600 MONTOPOLIS DR austin, tx'},
+{'address': '6400 FELIX AVE austin, tx'},
+{'address': '1000 VARGAS RD austin, tx'},
+{'address': '0 MONTANA ST austin, tx'},
+{'address': '0 MONSANTO DR austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '900 VARGAS RD austin, tx'},
+{'address': '6300 PONCA ST austin, tx'},
+{'address': '6300 PONCA ST austin, tx'},
+{'address': '6300 PONCA ST austin, tx'},
+{'address': '6300 MONSANTO DR austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '6300 MONSANTO DR austin, tx'},
+{'address': '900 VARGAS RD austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '0 FELIX AVE austin, tx'},
+{'address': '1000 VALDEZ ST austin, tx'},
+{'address': '1000 VALDEZ ST austin, tx'},
+{'address': '6600 FELIX AVE austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '700 VARGAS RD austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '600 THRASHER LN austin, tx'},
+{'address': '700 VARGAS RD austin, tx'},
+{'address': '700 VARGAS RD austin, tx'},
+{'address': '900 VALDEZ ST austin, tx'},
+{'address': '0 PONCA ST austin, tx'},
+{'address': '800 VALDEZ ST austin, tx'}
+  ];
+
+  
+
+//window.initMap = initMap;
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap"></script>
+<script src="markerCluster.js"></script>
+<!--<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>-->
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap">-->
+ </body>
