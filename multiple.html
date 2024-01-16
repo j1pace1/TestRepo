@@ -98,7 +98,8 @@ function toCoords(request) {
   for (let i = 0; i < 2; i++) {
   //for (let i = 0; i < addresses.length; i++) {
     geocoder
-    .geocode(request)
+    //.geocode(request)
+    .geocode(adrresses[0].address
     .then((result) => {      
       allProps.push(result);
       console.log(JSON.stringify(result, null, 2));
