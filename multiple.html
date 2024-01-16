@@ -15,11 +15,13 @@ let responseDiv;
 let responseDiv1;
 let response;
 let response1;
+let centerProp;
 
 function initMap() {
+  centerProp = toCoords'6200 PONCA ST austin, tx');
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 8,
-    center: { lat: -34.397, lng: 150.644 },
+    center: centerProp,
     mapTypeControl: false,
   });
   geocoder = new google.maps.Geocoder();
@@ -85,6 +87,19 @@ function initMap() {
 function clear() {
   marker.setMap(null);
   responseDiv.style.display = "none";
+}
+
+ function toCoords(request) {
+  clear();
+  geocoder
+    .geocode(request)
+    .then((result) => {
+      const { results } = result;
+      return results;
+    })
+    .catch((e) => {
+      alert("Geocode was not successful for the following reason: " + e);
+    });
 }
 
 function geocode(request) {
