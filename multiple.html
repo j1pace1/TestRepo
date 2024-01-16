@@ -92,18 +92,26 @@ function clear() {
   responseDiv.style.display = "none";
 }
 
+
 function toCoords(request) {
    clear();
 
   for (let i = 0; i < 2; i++) {
-      console.log(addresses[i]);
-  }
-  
-   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
-  
+  //for (let i = 0; i < addresses.length; i++) {
+    geocoder
+    //.geocode(request)
+    .geocode(addresses[i].address)
+    .then((result) => {      
+      allProps.push(addresses[i].address);
+      console.log(JSON.stringify(result, null, 2));
+      //return results;
+    })
+    .catch((e) => {
+      alert("Geocode was not successful for the following reason: " + e);
+    });
 }
 
-function toCoords1(request) {
+ function toCoords1(request) {
    clear();
 
   for (let i = 0; i < 2; i++) {
