@@ -95,11 +95,13 @@ function clear() {
  function toCoords(request) {
   clear();
 
-  for (let i = 0; i < addresses.length; i++) {
+  //for (let i = 0; i < addresses.length; i++) {
+  for (let i = 0; i < 1; i++) {
+    console.log(addresses[i].address);
     geocoder
     .geocode(request)
     .then((result) => {      
-      allProps.push(result.geometry[0].location);
+      //allProps.push(result.geometry[0].location);
       console.log(JSON.stringify(result, null, 2));
       //return results;
     })
