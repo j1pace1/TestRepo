@@ -77,10 +77,10 @@ function initMap() {
   map.addListener("click", (e) => {
     geocode({ location: e.latLng });
   });
-  submitButton.addEventListener("click", () => {
-    geocode({ address: inputText.value });
-    //toCoords({ address: inputText.value });
-  });
+  submitButton.addEventListener("click", () =>
+    //geocode({ address: inputText.value }),
+    toCoords({ address: inputText.value })
+  );
   clearButton.addEventListener("click", () => {
     clear();
   });
