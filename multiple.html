@@ -96,6 +96,19 @@ function toCoords(request) {
    clear();
 
   for (let i = 0; i < 2; i++) {
+      console.log(addresses[i]);
+    }
+}
+
+  
+   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
+  
+}
+
+function toCoords1(request) {
+   clear();
+
+  for (let i = 0; i < 2; i++) {
   //for (let i = 0; i < addresses.length; i++) {
     geocoder
     //.geocode(request)
@@ -109,12 +122,6 @@ function toCoords(request) {
       alert("Geocode was not successful for the following reason: " + e);
     });
 }
-
-  
-   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
-  
-}
-
 
 
 function geocode(request) {
