@@ -100,7 +100,7 @@ function toCoords(request) {
     geocoder
     .geocode(request)
     .then((result) => {      
-      allProps.push(result);
+      allProps.push(result.geometry.location);
       console.log(JSON.stringify(result, null, 2));
       //return results;
     })
