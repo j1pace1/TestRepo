@@ -94,16 +94,22 @@ function clear() {
 
  function toCoords(request) {
   clear();
-  geocoder
+
+  for (let i = 0; i < scores.length; i++) {
+    geocoder
     .geocode(request)
-    .then((result) => {
-      const { results } = result;
-      allProps += result.address;
-      return results;
+    .then((result) => {      
+      allProps.push(result.address);
+      //return results;
     })
     .catch((e) => {
       alert("Geocode was not successful for the following reason: " + e);
     });
+  }
+
+  
+   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
+  
 }
 
 function geocode(request) {
