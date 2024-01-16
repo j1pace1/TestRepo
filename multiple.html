@@ -119,7 +119,7 @@ function geocode(request) {
       responseDiv.style.display = "block";
       //response.innerText = JSON.stringify(result, null, 2);      
       allProps += JSON.stringify(result, null, 2);
-      responseDiv1.innerText  = JSON.stringify(result, null, 2);
+      responseDiv1.innerText  = allProps;
       return results;
     })
     .catch((e) => {
