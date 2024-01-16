@@ -16,6 +16,7 @@ let responseDiv1;
 let response;
 let response1;
 let centerProp;
+let allProps;
 
 function initMap() {
   
@@ -52,6 +53,7 @@ function initMap() {
   response1 = document.createElement("pre");
   //response1.id = "response";
   response1.innerText = "";
+  allProps = "";
   responseDiv1 = document.getElementById("response-container1");
   //responseDiv.id = "response-container";
   responseDiv1.appendChild(response1);
@@ -77,6 +79,7 @@ function initMap() {
   });
   submitButton.addEventListener("click", () =>
     geocode({ address: inputText.value }),
+    //toCoords({ address: inputText.value })
   );
   clearButton.addEventListener("click", () => {
     clear();
@@ -95,6 +98,7 @@ function clear() {
     .geocode(request)
     .then((result) => {
       const { results } = result;
+      allProps += result.address;
       return results;
     })
     .catch((e) => {
@@ -113,7 +117,8 @@ function geocode(request) {
       marker.setPosition(results[0].geometry.location);
       marker.setMap(map);
       responseDiv.style.display = "block";
-      //response.innerText = JSON.stringify(result, null, 2);
+      //response.innerText = JSON.stringify(result, null, 2);      
+      allProps += JSON.stringify(result, null, 2);
       responseDiv1.innerText  = JSON.stringify(result, null, 2);
       return results;
     })
