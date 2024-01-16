@@ -99,7 +99,7 @@ function clear() {
     geocoder
     .geocode(request)
     .then((result) => {      
-      allProps.push(addresses[i]);
+      allProps.push(result.geometry[0].location);
       console.log(JSON.stringify(result, null, 2));
       //return results;
     })
