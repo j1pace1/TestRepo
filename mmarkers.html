@@ -96,10 +96,12 @@ function clear() {
   for (let i = 0; i < 2; i++) {
     var loc;
     var request1 = { address: "6201 hogan ave austin, tx" };
+    var adr = {'address': addresses[i].address};
     //console.log(addresses[i].address);
     geocoder
     //.geocode(request1)
-    .geocode(addresses[i])
+    //.geocode(addresses[i])
+    .geocode(adr)
     .then((result) => {      
       allProps.push(result);
       loc = result.results[i].geometry.location;
