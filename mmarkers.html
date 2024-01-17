@@ -88,15 +88,20 @@ function clear() {
   marker.setMap(null);
   responseDiv.style.display = "none";
 }
+ 
+function getAddress(item) {
+	return {'address': item.address};
+}
 
  function toCoords(request) {
   clear();
-  
+  var map1 = addresses.map(getAddress);
   //for (let i = 0; i < addresses.length; i++) {
   for (let i = 0; i < 2; i++) {
     var loc;
     var request1 = { address: "6201 hogan ave austin, tx" };
-    var adr = {'address': addresses[i].address};
+    //var adr = {'address': addresses[i].address};
+    var adr = map1[i];
     //console.log(addresses[i].address);
     geocoder
     //.geocode(request1)
