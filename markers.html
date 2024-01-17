@@ -94,13 +94,13 @@ function clear() {
 
  function toCoords(request) {
   clear();
-
+  let request1 = "1605 sunnyvale st austin, tx";
   //for (let i = 0; i < addresses.length; i++) {
   for (let i = 0; i < 1; i++) {
     var loc;
     console.log(addresses[i].address);
     geocoder
-    .geocode(request)
+    .geocode(request1)
     .then((result) => {      
       allProps.push(result);
       loc = result.results[i].geometry.location;
@@ -110,13 +110,11 @@ function clear() {
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
 
-      
+      map.setCenter(loc);
       marker.setPosition(loc);
       marker.setMap(map); 
-      responseDiv.style.display = "block";
-     
     })
-    .catch((e) => {
+     .catch((e) => {
       alert("Geocode was not successful for the following reason: " + e);
     });
   }
