@@ -109,8 +109,8 @@ function clear() {
       //console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
-
-      map.setCenter(loc);
+      if (i == 0)
+         map.setCenter(loc);
       marker.setPosition(loc);
       marker.setMap(map); 
     })
