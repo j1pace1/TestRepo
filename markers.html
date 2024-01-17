@@ -57,10 +57,7 @@ function initMap() {
   responseDiv1 = document.getElementById("response-container1");
   //responseDiv.id = "response-container";
   responseDiv1.appendChild(response1);
-
-
- //6201 hogan ave austin, tx
-
+ 
   const instructionsElement = document.createElement("p");
 
   instructionsElement.id = "instructions";
@@ -96,11 +93,12 @@ function clear() {
   clear();
   let request1 = { address: "6201 hogan ave austin, tx" };
   //for (let i = 0; i < addresses.length; i++) {
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 2; i++) {
     var loc;
-    console.log(addresses[i].address);
+    //console.log(addresses[i].address);
     geocoder
-    .geocode(request1)
+    //.geocode(request1)
+    .geocode(addresses[i])
     .then((result) => {      
       allProps.push(result);
       loc = result.results[i].geometry.location;
