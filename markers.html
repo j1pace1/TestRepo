@@ -100,12 +100,12 @@ function clear() {
     var loc;
     console.log(addresses[i].address);
     geocoder
-    .geocode(request1)
+    .geocode("1605 sunnyvale st austin, tx")
     .then((result) => {      
       allProps.push(result);
       loc = result.results[i].geometry.location;
       console.log(JSON.stringify(loc, null, 2));
-      console.log(JSON.stringify(result.results[i], null, 2));
+      //console.log(JSON.stringify(result.results[i], null, 2));
       //console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
