@@ -110,9 +110,10 @@ function clear() {
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
 
-      responseDiv.style.display = "block";
+      
       marker.setPosition(loc);
-      marker.setMap(map);      
+      marker.setMap(map); 
+      responseDiv.style.display = "block";
      
     })
     .catch((e) => {
