@@ -58,6 +58,9 @@ function initMap() {
   //responseDiv.id = "response-container";
   responseDiv1.appendChild(response1);
 
+
+ //6201 hogan ave austin, tx
+
   const instructionsElement = document.createElement("p");
 
   instructionsElement.id = "instructions";
@@ -89,7 +92,6 @@ function clear() {
   responseDiv.style.display = "none";
 }
 
- //6201 hogan ave austin, tx
  function toCoords(request) {
   clear();
 
@@ -100,18 +102,9 @@ function clear() {
     .geocode(request)
     .then((result) => {      
       allProps.push(result);
-      //var location = result.results[i].geometry.location
       console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
-      //console.log(JSON.stringify(location, null, 2));
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
-
-      //map.setCenter(results[0].geometry.location);
-      //marker.setPosition(location);
-      //marker.setMap(map);
-
-
-     
     })
     .catch((e) => {
       alert("Geocode was not successful for the following reason: " + e);
