@@ -97,12 +97,15 @@ function clear() {
 
   //for (let i = 0; i < addresses.length; i++) {
   for (let i = 0; i < 1; i++) {
+    var loc;
     console.log(addresses[i].address);
     geocoder
     .geocode(request)
     .then((result) => {      
       allProps.push(result);
-      console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
+      loc = result.results[i].geometry.location;
+      console.log(JSON.stringify(loc, null, 2));
+      //console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
     })
