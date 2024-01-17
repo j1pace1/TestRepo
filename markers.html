@@ -94,13 +94,13 @@ function clear() {
 
  function toCoords(request) {
   clear();
-  //let request1 = "1605 sunnyvale st austin, tx";
+  let request1 = { address: "6201 hogan ave austin, tx" };
   //for (let i = 0; i < addresses.length; i++) {
   for (let i = 0; i < 1; i++) {
     var loc;
     console.log(addresses[i].address);
     geocoder
-    .geocode(request)
+    .geocode(request1)
     .then((result) => {      
       allProps.push(result);
       loc = result.results[i].geometry.location;
@@ -117,34 +117,11 @@ function clear() {
      .catch((e) => {
       alert("Geocode was not successful for the following reason: " + e);
     });
-  }
-
+  }  
   
-   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);
-  
+   responseDiv1.innerText  = JSON.stringify(allProps, null, 2);  
 }
-
-function geocode(request) {
-  clear();
-  geocoder
-    .geocode(request)
-    .then((result) => {
-      const { results } = result;
-
-      map.setCenter(results[0].geometry.location);
-      marker.setPosition(results[0].geometry.location);
-      marker.setMap(map);
-      responseDiv.style.display = "block";
-      //response.innerText = JSON.stringify(result, null, 2);      
-      allProps.push(JSON.stringify(result, null, 2));
-      responseDiv1.innerText  = allProps[0];
-      return results;
-    })
-    .catch((e) => {
-      alert("Geocode was not successful for the following reason: " + e);
-    });
-}
-
+ 
 const addresses = [
 {'address': '1000 GROVE BLVD austin, tx'},
 {'address': '1000 GROVE BLVD austin, tx'},
