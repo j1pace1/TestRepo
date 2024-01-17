@@ -100,15 +100,15 @@ function clear() {
     .geocode(request)
     .then((result) => {      
       allProps.push(result);
-     var location = result.results[i].geometry.location
-      //console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
-      console.log(JSON.stringify(location, null, 2));
+      //var location = result.results[i].geometry.location
+      console.log(JSON.stringify(result.results[i].geometry.location, null, 2));
+      //console.log(JSON.stringify(location, null, 2));
       //console.log(JSON.stringify(result.results[i], null, 2));
       //return results;
 
       //map.setCenter(results[0].geometry.location);
-      marker.setPosition(location);
-      marker.setMap(map);
+      //marker.setPosition(location);
+      //marker.setMap(map);
 
 
      
