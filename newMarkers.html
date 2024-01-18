@@ -1,6 +1,6 @@
 <!DOCTYPE html>
  <body>
-	<div id="map" style="width: 320px; height: 480px;"></div>
+	<!--<div id="map" style="width: 320px; height: 480px;"></div>-->
 	<input type="submit" id="submit" onclick="geocode()" />
 	<div id="responseDiv" style="width: 320px; height: 480px;">......</div>
 
@@ -10,27 +10,21 @@
 	}
 
 	function geocode() {
+		let responseDiv = document.getElementById("responseDiv");
  		let geocoder = new google.maps.Geocoder();
-		clear();
+		//clear();
 		let addresses = incidents.map(getAddress);
 		let allProps = [];
-		//alert(allProps.length);	
-		
-		for (let i = 2; i < 4; i++) {			
+
+		for (var i = 0; i < addresses.length; i++) {			
 			let loc;
 			let adr = addresses[i];			
 
 			geocoder
 			.geocode(adr)
-			.then((result) => {
-				//alert(adr.address);
-				//alert(JSON.stringify(result.results, null, 2));
-				//1alert(allProps.length);	
-				allProps.push(result.results[i]);
-				//2alert(allProps.length);
-				loc = result.results[i].geometry.location;
-				console.log(JSON.stringify(loc, null, 2));
-
+			.then((result) => {					
+				allProps.push(result.results[0]);
+				loc = JSON.stringify(result.results[0]);
 /*
 				if (i == 0)
 					map.setCenter(loc);
@@ -43,8 +37,7 @@
 				alert("Geocode was not successful for the following reason: " + e);
 			});
 		}
-
-		responseDiv.innerText= JSON.stringify(allProps, null, 2);
+		responseDiv.textContent = JSON.stringify(allProps, null, 2);
 	}
 
 	function clear() {
