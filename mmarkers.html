@@ -93,6 +93,12 @@ function getAddress(item) {
 	return {'address': item.address};
 }
 
+function showMap() {
+  clear();
+  var map1 = addresses.map(getAddress);
+  console.log(JSON.stringify(map1, null, 2));
+}
+
  function toCoords(request) {
   clear();
   var map1 = addresses.map(getAddress);
@@ -317,7 +323,7 @@ const addresses = [{'date':'11/20/2023', 'time':'17:24', 'address':'1000 GROVE B
 
 //window.initMap = initMap;
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=showMap"></script>
 <script src="markerCluster.js"></script>
 <!--<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>-->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap">-->
