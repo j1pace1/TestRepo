@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+ <body>
+	<!--<div id="map" style="width: 320px; height: 480px;"></div>-->
+	<input type="submit" id="submit" onclick="initMap()" />
+	<div id="responseDiv" ><pre id="responseDivP"......</p></div>
+
+	<script>
+	
+	function initMap() {
+		groupByAddress();
+	}	
+
+	function groupByAddress() {
+		if (incidents.lenth == 0)
+			return;
+
+		if (groupedAddresses.length === 0) 
+				groupedAddresses.push(Address.fromIncident(incidents[0]));
+		
+		for (i = 1; i < incidents.length; i++) {
+			let item = incidents[i];			
+			getAddress(item);
+		}
+
+		let content = document.getElementById("responseDivP");
+		content.textContent = JSON.stringify(groupedAddresses, null, 2);
+		console.log(JSON.stringify(groupedAddresses, null, 2));
+	}
+
+	function getAddress(incident) {				
+		for (j = 0; j < groupedAddresses.length; j++) {
+			let gItem = groupedAddresses[j];
+			if (gItem.addressIs(incident)) {
+				//return Address.fromIncident(incident);
+				gItem.addIncident(incident);
+				return true;
+			}
+		}
+
+		//no match found - return new Address
+		//return Address.fromIncident(item);
+		groupedAddresses.push(Address.fromIncident(incident));
+		return false;		
+	}
+	
+	class Address {
+		address = "";			
+		incidents = [];
+		location = {"lat": null, "lng": null}
+
+		addIncident(incident) {
+			this.incidents.push({
+				'date:': incident.date,
+				'time': incident.time,
+				'code': incident.code,
+				'description': incident.description
+			});
+		}
+
+		static fromIncident(incident) {	
+			var address = new Address();					
+			address.address = incident.address,
+			address.incidents[0] = {
+				'date:': incident.date,
+				'time': incident.time,
+				'code': incident.code,
+				'description': incident.description
+			};
+			return address;
+		}
+
+		addressIs(incident) {
+			//console.log(this.address.toLowerCase());
+			//console.log(incident.address.toLowerCase());
+			return this.address.toLowerCase() == incident.address.toLowerCase();
+		}
+	}
+
+	const groupedAddresses = [];
+
+	const incidents = [
+{'date':'11/20/2023', 'time':'17:24', 'address':'1000 GROVE BLVD austin, tx', 'code':'909', 'description':'FELONY ENHANCEMENT/ASSLT W/INJ'},
+{'date':'1/1/2023', 'time':'15:11', 'address':'1000 GROVE BLVD austin, tx', 'code':'2703', 'description':'HARASSMENT'},
+{'date':'3/7/2023', 'time':'00:02', 'address':'1000 GROVE BLVD austin, tx', 'code':'1502', 'description':'POSS OF FIREARM BY FELON'},
+{'date':'6/20/2023', 'time':'10:13', 'address':'1200 GROVE BLVD austin, tx', 'code':'1108', 'description':'DEBIT CARD ABUSE'},
+{'date':'7/24/2023', 'time':'08:32', 'address':'1200 GROVE BLVD austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'7/26/2023', 'time':'22:26', 'address':'1200 GROVE BLVD austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'7/11/2023', 'time':'18:48', 'address':'1100 GROVE BLVD austin, tx', 'code':'902', 'description':'ASSAULTCONTACT-SEXUAL NATURE'},
+{'date':'1/20/2023', 'time':'08:48', 'address':'1100 GROVE BLVD austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'9/1/2023', 'time':'13:13', 'address':'1100 GROVE BLVD austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'3/19/2023', 'time':'09:46', 'address':'6000 BLUEBELL CIR austin, tx', 'code':'620', 'description':'THEFT CATALYTIC CONVERTER'},
+{'date':'1/10/2023', 'time':'02:46', 'address':'6100 MARIGOLD TER austin, tx', 'code':'1804', 'description':'DEL CONTROLLED SUB/NARCOTIC'},
+{'date':'11/17/2023', 'time':'08:00', 'address':'6000 CARNATION TER austin, tx', 'code':'1199', 'description':'FRAUD - OTHER'},
+{'date':'10/30/2023', 'time':'22:23', 'address':'1200 BEGONIA TER austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'2/27/2023', 'time':'21:47', 'address':'6000 PALM CIR austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'6/2/2023', 'time':'19:01', 'address':'1100 LILY TER austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'9/2/2023', 'time':'23:03', 'address':'6100 CARNATION TER austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'7/1/2023', 'time':'16:32', 'address':'6000 PALM CIR austin, tx', 'code':'608', 'description':'THEFT OF SERVICE'},
+{'date':'6/13/2023', 'time':'07:13', 'address':'6100 BEGONIA CIR austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'6/13/2023', 'time':'07:13', 'address':'6100 BEGONIA CIR austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'5/18/2023', 'time':'02:58', 'address':'6100 BEGONIA CIR austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'4/4/2023', 'time':'12:52', 'address':'800 GROVE BLVD austin, tx', 'code':'619', 'description':'THEFT OF METAL'},
+{'date':'6/1/2023', 'time':'13:21', 'address':'6100 CARNATION TER austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'2/11/2023', 'time':'14:35', 'address':'6200 MARIGOLD TER austin, tx', 'code':'2409', 'description':'DOC DISPLAY GUN/DEADLY PUB PLC'},
+{'date':'7/24/2023', 'time':'18:35', 'address':'6200 MARIGOLD TER austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'9/11/2023', 'time':'13:50', 'address':'6100 CLUB TER austin, tx', 'code':'1106', 'description':'CRED CARD ABUSE - OTHER'},
+{'date':'6/24/2023', 'time':'20:16', 'address':'6100 PALM CIR austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'7/16/2023', 'time':'15:54', 'address':'6100 CLUB TER austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'4/17/2023', 'time':'05:04', 'address':'6100 HOGAN AVE austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'3/17/2023', 'time':'17:37', 'address':'1400 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'9/8/2023', 'time':'18:40', 'address':'6100 HOGAN AVE austin, tx', 'code':'601', 'description':'BURGLARY OF VEHICLE'},
+{'date':'11/25/2023', 'time':'00:13', 'address':'0 MARIGOLD TER austin, tx', 'code':'1800', 'description':'POSS CONTROLLED SUB/NARCOTIC'},
+{'date':'6/26/2023', 'time':'13:52', 'address':'0 MARIGOLD TER austin, tx', 'code':'2300', 'description':'PUBLIC INTOXICATION'},
+{'date':'2/22/2023', 'time':'04:29', 'address':'6100 HOGAN AVE austin, tx', 'code':'1818', 'description':'POSS OF DRUG PARAPHERNALIA'},
+{'date':'12/18/2023', 'time':'00:23', 'address':'6100 PALM CIR austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'4/17/2023', 'time':'13:07', 'address':'1400 MONTOPOLIS DR austin, tx', 'code':'1201', 'description':'MISAPPLY FIDUCIARY PROP'},
+{'date':'6/16/2023', 'time':'02:34', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'2100', 'description':'DWI'},
+{'date':'1/7/2023', 'time':'14:04', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'902', 'description':'ASSAULT BY CONTACT'},
+{'date':'8/9/2023', 'time':'15:31', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'902', 'description':'ASSAULT BY CONTACT'},
+{'date':'9/24/2023', 'time':'22:34', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'8/5/2023', 'time':'17:22', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'4/3/2023', 'time':'11:12', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'1108', 'description':'DEBIT CARD ABUSE'},
+{'date':'3/5/2023', 'time':'22:16', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'2704', 'description':'TERRORISTIC THREAT'},
+{'date':'6/25/2023', 'time':'22:11', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'3/4/2023', 'time':'19:56', 'address':'6000 PONCA ST austin, tx', 'code':'601', 'description':'BURGLARY OF VEH-NO SUSPECT/FU'},
+{'date':'7/24/2023', 'time':'01:02', 'address':'1300 MONTOPOLIS DR austin, tx', 'code':'2704', 'description':'TERRORISTIC THREAT'},
+{'date':'8/12/2023', 'time':'19:27', 'address':'0 PORTER ST austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'1/22/2023', 'time':'16:15', 'address':'0 PORTER ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'5/26/2023', 'time':'15:30', 'address':'6200 PALM CIR austin, tx', 'code':'402', 'description':'AGG ASSAULT FAM/DATE VIOLENCE'},
+{'date':'7/2/2023', 'time':'00:02', 'address':'6200 PALM CIR austin, tx', 'code':'2704', 'description':'TERRORISTIC THREAT-FAM/DAT VIO'},
+{'date':'4/5/2023', 'time':'13:16', 'address':'6000 PONCA ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'8/1/2023', 'time':'12:39', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'601', 'description':'BURGLARY OF VEHICLE'},
+{'date':'1/12/2023', 'time':'01:38', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'1400', 'description':'CRIMINAL MISCHIEF-NO SUSPECT'},
+{'date':'7/28/2023', 'time':'20:26', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'600', 'description':'THEFT-NO SUSPECT/FOLLOWUP'},
+{'date':'3/6/2023', 'time':'16:25', 'address':'6100 RICHARDSON LN austin, tx', 'code':'3403', 'description':'SUSPICIOUS PERSON'},
+{'date':'5/23/2023', 'time':'15:00', 'address':'6100 HOGAN AVE austin, tx', 'code':'2001', 'description':'CHILD CUSTODY INTERFERE'},
+{'date':'4/28/2023', 'time':'22:29', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'10/17/2023', 'time':'00:15', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'2/3/2023', 'time':'09:57', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'601', 'description':'BURGLARY OF VEHICLE'},
+{'date':'6/9/2023', 'time':'01:01', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'1800', 'description':'POSS CONTROLLED SUB/NARCOTIC'},
+{'date':'10/7/2023', 'time':'22:05', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'9/8/2023', 'time':'19:03', 'address':'1200 MONTOPOLIS DR austin, tx', 'code':'1500', 'description':'UNLAWFUL CARRYING WEAPON'},
+{'date':'5/9/2023', 'time':'18:48', 'address':'6100 RICHARDSON LN austin, tx', 'code':'502', 'description':'BURGLARY NON RESIDENCE'},
+{'date':'12/24/2023', 'time':'20:52', 'address':'6200 HOGAN AVE austin, tx', 'code':'402', 'description':'AGG ASSAULT'},
+{'date':'8/18/2023', 'time':'00:27', 'address':'0 MONTOPOLIS DR austin, tx', 'code':'1800', 'description':'POSS CONTROLLED SUB/NARCOTIC'},
+{'date':'2/12/2023', 'time':'02:21', 'address':'700 EGGER ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'2/1/2023', 'time':'02:27', 'address':'6200 PALM CIR austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'3/8/2023', 'time':'18:34', 'address':'6200 PALM CIR austin, tx', 'code':'2704', 'description':'TERRORISTIC THREAT'},
+{'date':'7/27/2023', 'time':'20:17', 'address':'6000 ATWOOD ST austin, tx', 'code':'2400', 'description':'DATING DISTURBANCE'},
+{'date':'1/8/2023', 'time':'23:05', 'address':'6000 ATWOOD ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'8/29/2023', 'time':'15:36', 'address':'6000 ATWOOD ST austin, tx', 'code':'2703', 'description':'HARASSMENT'},
+{'date':'10/19/2023', 'time':'04:37', 'address':'1000 MONTOPOLIS DR austin, tx', 'code':'1800', 'description':'POSS CONTROLLED SUB/NARCOTIC'},
+{'date':'8/11/2023', 'time':'07:41', 'address':'1100 MONTOPOLIS DR austin, tx', 'code':'1400', 'description':'CRIMINAL MISCHIEF'},
+{'date':'1/23/2023', 'time':'02:40', 'address':'1100 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'10/22/2023', 'time':'12:33', 'address':'1000 MONTOPOLIS DR austin, tx', 'code':'800', 'description':'ARSON'},
+{'date':'12/18/2023', 'time':'01:47', 'address':'1000 MONTOPOLIS DR austin, tx', 'code':'1800', 'description':'POSS CONTROLLED SUB/NARCOTIC'},
+{'date':'2/24/2023', 'time':'01:17', 'address':'700 CULP ST austin, tx', 'code':'902', 'description':'ASSAULT BY CONTACT FAM/DATING'},
+{'date':'7/13/2023', 'time':'14:32', 'address':'6100 ATWOOD ST austin, tx', 'code':'408', 'description':'DEADLY CONDUCT'},
+{'date':'7/14/2023', 'time':'07:43', 'address':'6400 PORTER ST austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'3/11/2023', 'time':'20:36', 'address':'6200 HOGAN AVE austin, tx', 'code':'3401', 'description':'DISTURBANCE - OTHER'},
+{'date':'4/2/2023', 'time':'13:07', 'address':'6500 PORTER ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'4/2/2023', 'time':'19:57', 'address':'6100 PONCA ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'4/16/2023', 'time':'00:36', 'address':'0 MONTOPOLIS DR austin, tx', 'code':'2103', 'description':'DWI - DRUG RECOGNITION EXPERT'},
+{'date':'12/29/2023', 'time':'18:10', 'address':'0 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'5/26/2023', 'time':'14:34', 'address':'900 MONTOPOLIS DR austin, tx', 'code':'1400', 'description':'CRIMINAL MISCHIEF'},
+{'date':'1/1/2024', 'time':'04:49', 'address':'6100 ATWOOD ST austin, tx', 'code':'410', 'description':'AGG ASLT STRANGLE/SUFFOCATE'},
+{'date':'10/31/2023', 'time':'19:25', 'address':'6100 ATWOOD ST austin, tx', 'code':'1400', 'description':'CRIMINAL MISCHIEF'},
+{'date':'3/14/2023', 'time':'00:03', 'address':'6100 ATWOOD ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'4/5/2023', 'time':'13:32', 'address':'6100 ATWOOD ST austin, tx', 'code':'406', 'description':'AGG ASLT W/MOTOR VEH FAM/DAT V'},
+{'date':'5/30/2023', 'time':'14:20', 'address':'6100 ATWOOD ST austin, tx', 'code':'1804', 'description':'DEL CONTROLLED SUB/NARCOTIC'},
+{'date':'1/22/2023', 'time':'17:46', 'address':'1200 VARGAS RD austin, tx', 'code':'1400', 'description':'CRIMINAL MISCHIEF-NO SUSPECT'},
+{'date':'3/7/2023', 'time':'02:33', 'address':'6600 CIRCULO DE AMISTADaustin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'9/29/2023', 'time':'20:58', 'address':'6600 PORTER ST austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'7/19/2023', 'time':'01:57', 'address':'6300 CIRCULO DE AMISTADaustin, tx', 'code':'2100', 'description':'DWI'},
+{'date':'7/18/2023', 'time':'23:10', 'address':'6300 CIRCULO DE AMISTADaustin, tx', 'code':'2300', 'description':'PUBLIC INTOXICATION'},
+{'date':'12/21/2023', 'time':'14:35', 'address':'0 FELIX AVE austin, tx', 'code':'1802', 'description':'POSS CONTROLLED SUB/OTHER'},
+{'date':'7/17/2023', 'time':'02:13', 'address':'0 FELIX AVE austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'11/26/2023', 'time':'19:42', 'address':'0 FELIX AVE austin, tx', 'code':'1500', 'description':'UNLAWFUL CARRYING WEAPON'},
+{'date':'12/19/2023', 'time':'18:37', 'address':'900 MONTOPOLIS DR austin, tx', 'code':'305', 'description':'ROBBERY BY THREAT'},
+{'date':'5/12/2023', 'time':'10:32', 'address':'6600 CIRCULO DE AMISTADaustin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'7/16/2023', 'time':'18:37', 'address':'6600 CIRCULO DE AMISTADaustin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'11/10/2023', 'time':'08:56', 'address':'6600 CIRCULO DE AMISTADaustin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'2/25/2023', 'time':'11:29', 'address':'6600 CIRCULO DE AMISTADaustin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'1/2/2023', 'time':'18:37', 'address':'700 SHORT KEMPaustin, tx', 'code':'1199', 'description':'FRAUD - OTHER'},
+{'date':'5/3/2023', 'time':'13:10', 'address':'6300 FELIX AVE austin, tx', 'code':'300', 'description':'AGG ROBBERY/DEADLY WEAPON'},
+{'date':'3/21/2023', 'time':'00:28', 'address':'6300 FELIX AVE austin, tx', 'code':'107', 'description':'JUSTIFIED HOMICIDE'},
+{'date':'1/16/2023', 'time':'06:35', 'address':'6100 ATWOOD ST austin, tx', 'code':'2410', 'description':'DOC DISCHARGE GUN - PUB ROAD'},
+{'date':'6/23/2023', 'time':'20:29', 'address':'6200 RICHARDSON LN austin, tx', 'code':'502', 'description':'BURGLARY NON RESIDENCE'},
+{'date':'6/14/2023', 'time':'20:19', 'address':'1200 VARGAS RD austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'3/28/2023', 'time':'23:55', 'address':'0 ATWOOD ST austin, tx', 'code':'2408', 'description':'DOC DISCHARGE GUN - PUB PLACE'},
+{'date':'3/28/2023', 'time':'23:55', 'address':'0 ATWOOD ST austin, tx', 'code':'2408', 'description':'DOC DISCHARGE GUN - PUB PLACE'},
+{'date':'4/29/2023', 'time':'16:47', 'address':'6200 PONCA ST austin, tx', 'code':'402', 'description':'AGG ASSAULT'},
+{'date':'9/17/2023', 'time':'17:46', 'address':'6200 PONCA ST austin, tx', 'code':'402', 'description':'AGG ASSAULT'},
+{'date':'6/10/2023', 'time':'12:32', 'address':'6200 PONCA ST austin, tx', 'code':'902', 'description':'ASSAULT BY CONTACT'},
+{'date':'4/29/2023', 'time':'16:47', 'address':'6200 PONCA ST austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'8/22/2023', 'time':'04:41', 'address':'6200 PONCA ST austin, tx', 'code':'3401', 'description':'DISTURBANCE - OTHER'},
+{'date':'6/28/2023', 'time':'00:33', 'address':'6200 PONCA ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'5/2/2023', 'time':'16:24', 'address':'6200 PONCA ST austin, tx', 'code':'909', 'description':'FELONY ENHANCEMENT/ASSLT W/INJ'},
+{'date':'9/21/2023', 'time':'00:51', 'address':'6200 PONCA ST austin, tx', 'code':'909', 'description':'FELONY ENHANCEMENT/ASSLT W/INJ'},
+{'date':'5/24/2023', 'time':'20:11', 'address':'6200 PONCA ST austin, tx', 'code':'2704', 'description':'TERRORISTIC THREAT'},
+{'date':'12/26/2023', 'time':'18:46', 'address':'6200 PONCA ST austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'2/8/2023', 'time':'21:42', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'402', 'description':'AGG ASSAULT'},
+{'date':'12/1/2023', 'time':'00:05', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'12/19/2023', 'time':'07:08', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'502', 'description':'BURGLARY NON RESIDENCE'},
+{'date':'11/24/2023', 'time':'22:03', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'12/12/2023', 'time':'23:00', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'305', 'description':'ROBBERY BY THREAT'},
+{'date':'7/12/2023', 'time':'03:11', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'5/30/2023', 'time':'15:36', 'address':'6200 VERA LN austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'12/21/2023', 'time':'10:20', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'7/4/2023', 'time':'17:14', 'address':'6200 VERA LN austin, tx', 'code':'609', 'description':'THEFT OF BICYCLE'},
+{'date':'3/29/2023', 'time':'22:21', 'address':'0 MONTANA ST austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'2/16/2023', 'time':'00:15', 'address':'0 MONTANA ST austin, tx', 'code':'1500', 'description':'UNLAWFUL CARRYING WEAPON'},
+{'date':'2/24/2023', 'time':'17:50', 'address':'6400 FELIX AVE austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'10/13/2023', 'time':'18:49', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'10/15/2023', 'time':'19:00', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'10/19/2023', 'time':'17:00', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'10/26/2023', 'time':'10:15', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'11/3/2023', 'time':'14:27', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'12/17/2023', 'time':'09:38', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'10/18/2023', 'time':'08:42', 'address':'600 MONTOPOLIS DR austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'10/18/2023', 'time':'08:42', 'address':'600 MONTOPOLIS DR austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'12/29/2023', 'time':'08:36', 'address':'6200 WALKER LN austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'5/21/2023', 'time':'00:06', 'address':'0 MONTOPOLIS DR austin, tx', 'code':'1800', 'description':'POSS CONTROLLED SUB/NARCOTIC'},
+{'date':'2/26/2023', 'time':'19:07', 'address':'6500 CIRCULO DE AMISTADaustin, tx', 'code':'2300', 'description':'PUBLIC INTOXICATION'},
+{'date':'6/21/2023', 'time':'12:00', 'address':'1100 VARGAS RD austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'2/3/2023', 'time':'23:35', 'address':'6200 VERA LN austin, tx', 'code':'2111', 'description':'DWI.15 BAC OR ABOVE'},
+{'date':'3/28/2023', 'time':'16:55', 'address':'6300 PONCA ST austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'10/27/2023', 'time':'18:45', 'address':'700 MONTOPOLIS DR austin, tx', 'code':'1199', 'description':'FRAUD - OTHER'},
+{'date':'5/21/2023', 'time':'09:47', 'address':'6400 RICHARDSON LN austin, tx', 'code':'1199', 'description':'FRAUD - OTHER'},
+{'date':'3/24/2023', 'time':'17:25', 'address':'600 MONTOPOLIS DR austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'1/6/2023', 'time':'22:35', 'address':'1000 VARGAS RD austin, tx', 'code':'900', 'description':'ASSAULT WITH INJURY'},
+{'date':'12/29/2023', 'time':'07:56', 'address':'600 MONTOPOLIS DR austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'12/29/2023', 'time':'07:56', 'address':'600 MONTOPOLIS DR austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'6/25/2023', 'time':'22:52', 'address':'6400 FELIX AVE austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'12/4/2023', 'time':'19:42', 'address':'1000 VARGAS RD austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'3/4/2023', 'time':'00:01', 'address':'0 MONTANA ST austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'3/10/2023', 'time':'00:10', 'address':'0 MONSANTO DR austin, tx', 'code':'1818', 'description':'POSS OF DRUG PARAPHERNALIA'},
+{'date':'10/29/2023', 'time':'05:48', 'address':'600 THRASHER LN austin, tx', 'code':'402', 'description':'AGG ASSAULT'},
+{'date':'5/7/2023', 'time':'03:51', 'address':'600 THRASHER LN austin, tx', 'code':'2409', 'description':'DOC DISPLAY GUN/DEADLY PUB PLC'},
+{'date':'6/26/2023', 'time':'05:59', 'address':'600 THRASHER LN austin, tx', 'code':'609', 'description':'THEFT OF BICYCLE'},
+{'date':'7/24/2023', 'time':'20:34', 'address':'900 VARGAS RD austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'2/11/2023', 'time':'22:41', 'address':'6300 PONCA ST austin, tx', 'code':'902', 'description':'ASSAULT BY CONTACT FAM/DATING'},
+{'date':'3/12/2023', 'time':'21:39', 'address':'6300 PONCA ST austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'12/29/2023', 'time':'08:17', 'address':'6300 PONCA ST austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'5/23/2023', 'time':'12:24', 'address':'6300 MONSANTO DR austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'2/4/2023', 'time':'03:41', 'address':'600 THRASHER LN austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'7/24/2023', 'time':'22:10', 'address':'6300 MONSANTO DR austin, tx', 'code':'2905', 'description':'IMPERSONATING PUBLIC SERVANT'},
+{'date':'7/29/2023', 'time':'14:22', 'address':'900 VARGAS RD austin, tx', 'code':'2703', 'description':'HARASSMENT'},
+{'date':'2/3/2023', 'time':'23:09', 'address':'0 FELIX AVE austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'6/23/2023', 'time':'19:29', 'address':'0 FELIX AVE austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'7/23/2023', 'time':'22:57', 'address':'0 FELIX AVE austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'9/22/2023', 'time':'17:28', 'address':'0 FELIX AVE austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'3/21/2023', 'time':'22:22', 'address':'0 FELIX AVE austin, tx', 'code':'1500', 'description':'UNLAWFUL CARRYING WEAPON'},
+{'date':'2/3/2023', 'time':'13:21', 'address':'1000 VALDEZ ST austin, tx', 'code':'900', 'description':'ASSAULT W/INJURY-FAM/DATE VIOL'},
+{'date':'3/25/2023', 'time':'20:28', 'address':'1000 VALDEZ ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'7/2/2023', 'time':'10:21', 'address':'6600 FELIX AVE austin, tx', 'code':'700', 'description':'AUTO THEFT'},
+{'date':'5/31/2023', 'time':'21:33', 'address':'600 THRASHER LN austin, tx', 'code':'409', 'description':'TAKE WEAPON FRM POLICE OFFICER'},
+{'date':'5/7/2023', 'time':'18:17', 'address':'700 VARGAS RD austin, tx', 'code':'600', 'description':'THEFT'},
+{'date':'12/3/2023', 'time':'20:24', 'address':'600 THRASHER LN austin, tx', 'code':'901', 'description':'ASSAULT BY THREAT'},
+{'date':'7/3/2023', 'time':'17:34', 'address':'600 THRASHER LN austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'7/3/2023', 'time':'17:34', 'address':'600 THRASHER LN austin, tx', 'code':'500', 'description':'BURGLARY OF RESIDENCE'},
+{'date':'5/25/2023', 'time':'09:10', 'address':'700 VARGAS RD austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'3/20/2023', 'time':'23:55', 'address':'700 VARGAS RD austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'6/23/2023', 'time':'15:17', 'address':'900 VALDEZ ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'},
+{'date':'6/23/2023', 'time':'16:45', 'address':'0 PONCA ST austin, tx', 'code':'1803', 'description':'POSSESSION OF MARIJUANA'},
+{'date':'12/19/2023', 'time':'02:16', 'address':'800 VALDEZ ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'}];
+
+	</script>
+	</body>
+</html>
