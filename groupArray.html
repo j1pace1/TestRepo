@@ -1,14 +1,48 @@
 <!DOCTYPE html>
  <body>
 	<!--<div id="map" style="width: 320px; height: 480px;"></div>-->
-	<input type="submit" id="submit" onclick="initMap()" />
+	<input type="submit" id="submit" onclick="geocode()" />
 	<div id="responseDiv" ><pre id="responseDivP"......</p></div>
 
 	<script>
-	
+
+	let geocoder;
 	function initMap() {
+		geocoder = new google.maps.Geocoder();		
 		groupByAddress();
-	}	
+	}
+
+	function geocode() {	
+		gc(0);
+	}
+
+	function gc(i) {
+		let groupedAddress = groupedAddresses[i];
+		let c = i;
+		let finalIndex = 1; //groupedAddresses.length - 1;		
+
+		geocoder
+		.geocode({'address': groupedAddress.address})
+		.then((result) => {			
+			groupedAddress.location = result.results[0].geometry.location;
+			//groupedAddresses.push(groupedAddress);
+
+			if (i < finalIndex) {
+				alert(c);
+				c++;				
+				gc(c);
+			
+			}
+			else {
+					let content = document.getElementById("responseDivP");
+					content.textContent = JSON.stringify(groupedAddresses, null, 2);
+			}
+
+		})							
+		.catch((e) => {
+			alert("Geocode was not successful for the following reason: " + e);
+		});
+	}
 
 	function groupByAddress() {
 		if (incidents.lenth == 0)
@@ -21,10 +55,6 @@
 			let item = incidents[i];			
 			getAddress(item);
 		}
-
-		let content = document.getElementById("responseDivP");
-		content.textContent = JSON.stringify(groupedAddresses, null, 2);
-		console.log(JSON.stringify(groupedAddresses, null, 2));
 	}
 
 	function getAddress(incident) {				
@@ -38,7 +68,6 @@
 		}
 
 		//no match found - return new Address
-		//return Address.fromIncident(item);
 		groupedAddresses.push(Address.fromIncident(incident));
 		return false;		
 	}
@@ -77,6 +106,7 @@
 	}
 
 	const groupedAddresses = [];
+	const l = [];
 
 	const incidents = [
 {'date':'11/20/2023', 'time':'17:24', 'address':'1000 GROVE BLVD austin, tx', 'code':'909', 'description':'FELONY ENHANCEMENT/ASSLT W/INJ'},
@@ -266,5 +296,6 @@
 {'date':'12/19/2023', 'time':'02:16', 'address':'800 VALDEZ ST austin, tx', 'code':'3400', 'description':'FAMILY DISTURBANCE'}];
 
 	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO5ixRCfyOBaTObfnonGkUChNd4PI1OSA&callback=initMap"></script>
 	</body>
 </html>
