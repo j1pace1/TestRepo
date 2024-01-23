@@ -1,6 +1,6 @@
 <!DOCTYPE html>
  <body>
-	<<div id="map" style="width: 500px; height: 500px;"></div>
+	<div id="map" style="width: 500px; height: 500px;"></div>
 	<input type="submit" id="submit" onclick="createHeatMap()" />
 	<div id="responseDiv" ><pre id="responseDivP"......</p></div>
 
@@ -15,7 +15,7 @@
 	function createHeatMap() {	
 		var heatmapData = incidents.map(incident => new google.maps.LatLng(incident.location.lat, incident.location.lng));
 		console.log(JSON.stringify(heatmapData));
-/*
+
 		var montopolis = new google.maps.LatLng(30.236495, -97.7034592);
 
 		map = new google.maps.Map(document.getElementById('map'), {
@@ -28,7 +28,7 @@
 			data: heatmapData
 		});
 		heatmap.setMap(map);
-*/
+
 	}
 	
 	
