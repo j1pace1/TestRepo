@@ -16,14 +16,20 @@
 		var heatmapData = incidents.map(incident => new google.maps.LatLng(incident.location.lat, incident.location.lng));
 		console.log(JSON.stringify(heatmapData));
 
-		var montopolis = new google.maps.LatLng(heatmapData[0]);
-		//var montopolis = new google.maps.LatLng(30.236495, -97.7034592);
+		//var montopolis = new google.maps.LatLng(heatmapData[0]);
+		var montopolis = new google.maps.LatLng(30.23510, -97.69895);
 
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: montopolis,
 			zoom: 13,
 			mapTypeId: 'hybrid'
 		});
+
+		let marker = new google.maps.Marker({
+    			map,
+  		});
+      		marker.setPosition(montopolis);
+      		marker.setMap(map); 
 
 		var heatmap = new google.maps.visualization.HeatmapLayer({
 			data: heatmapData
