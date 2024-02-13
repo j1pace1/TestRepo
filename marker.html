@@ -23,10 +23,13 @@ async function initMap() {
 
   // The map, centered at Uluru
   map = new Map(document.getElementById("map"), {
-    zoom: 13,
+    zoom: 17,
     center: position
     //,mapId: "DEMO_MAP_ID"
     ,mapId: "12c85a004483f8d3"
+    mapTypeId: "satellite",
+    heading: 90,
+    tilt: 45,
   });
 
   // The marker, positioned at Uluru
